@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kotanlar</title>
+  <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="/css/buy.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body class="bg-[#f5f5f0] text-[#1c1c1c]">
+
+<nav id="navbar" class="flex justify-between items-center p-6 fixed w-full z-50  transition-all duration-300 h-24 ">
+  <div class="flex items-center space-x-4">
+    <a href="/" class="inline-block transition-transform duration-300 hover:scale-110 hover:drop-shadow-lg">
+      <img src="/images/logo.png" alt="Logo" style="background-color: transparent;" class="w-12 h-12">
+    </a>
+    <div>
+      <div id="logo" class="text-2xl font-bold uppercase tracking-wide text-white">Kotanlar</div>
+      <div id="lillogo" class="text-lg italic text-gray-300">
+        Evinizi kaliteye taşıyın
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Navigation -->
+  <div id="nav-links" class="space-x-6 text-xl text-white font-semibold hidden md:flex items-center relative z-50">
+    <a href="/#about" class="relative group scroll-smooth">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Hakkımızda</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/projects" class="relative group">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Projelerimiz</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/buy" class="relative group">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Satın Alma İşlemleri</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/#contact" class="relative group">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Bize Ulaşın</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+
+    <a href="/en" id="lang-btn" class="px-6 py-3 bg-white text-black font-semibold rounded-full 
+      hover:bg-blue-400 hover:text-white transition duration-300">
+      EN / TR
+    </a>
+  </div>
+
+  <!-- Mobile Hamburger Button -->
+  <button id="hamburger-btn" class="md:hidden focus:outline-none z-50">
+    <div class="w-8 space-y-2">
+      <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
+      <span class="block h-0.5 w-full bg-white hamburger-line transition-opacity"></span>
+      <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
+    </div>
+  </button>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-40">
+  <div class="absolute inset-0 bg-black bg-opacity-90"></div>
+    <div class="relative z-50 h-full flex flex-col items-center justify-center space-y-8">
+      <a href="/#about" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Hakkımızda</a>
+      <a href="/projects" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Projelerimiz</a>
+      <a href="/buy" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Satın Alma İşlemleri</a>
+      <a href="/#contact" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Bize Ulaşın</a>
+      <a href="/en" class="px-6 py-3 bg-white text-black font-semibold rounded-full 
+        hover:bg-blue-400 hover:text-white transition duration-300 mt-4 mobile-nav-link">
+        EN / TR
+      </a>
+    </div>
+  </div>
+</div>
+<script>
+  // Hamburger menu functionality
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerLines = document.querySelectorAll('.hamburger-line');
+  const body = document.body;
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  
+  function toggleMenu() {
+    mobileMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+    
+    // Hamburger animation
+    hamburgerLines[0].classList.toggle('rotate-45');
+    hamburgerLines[0].classList.toggle('translate-y-2.5');
+    hamburgerLines[1].classList.toggle('opacity-0');
+    hamburgerLines[2].classList.toggle('-rotate-45');
+    hamburgerLines[2].classList.toggle('-translate-y-2.5');
+  }
+  
+  hamburgerBtn.addEventListener('click', toggleMenu);
+  
+  // Close menu when clicking on a link
+  mobileNavLinks.forEach(link => {
+    link.addEventListener('click', (e) => {
+      // For anchor links, wait a bit before closing to allow scroll
+      if (link.getAttribute('href').startsWith('#')) {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          toggleMenu();
+          setTimeout(() => {
+            target.scrollIntoView({ behavior: 'smooth' });
+          }, 300);
+        }
+      } else {
+        // For regular links, close menu immediately
+        toggleMenu();
+      }
+    });
+  });
+  
+  // Close menu when clicking outside
+  mobileMenu.addEventListener('click', (e) => {
+    if (e.target === mobileMenu || e.target.classList.contains('bg-black')) {
+      toggleMenu();
+    }
+  });
+</script>

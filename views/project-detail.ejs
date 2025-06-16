@@ -1,0 +1,120 @@
+<%- include("partials/header-other") %>
+
+<main class="max-w-7xl mx-auto px-4 pt-[130px] sm:px-6 lg:px-8 pb-20">
+  <!-- Hero Section -->
+  <div class="mb-16">
+    <!-- Project Title and Meta -->
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-4"><%= project.title %></h1>
+      <div class="flex justify-center items-center text-gray-600 space-x-6">
+        <span class="flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#1c1c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          Kuşadası, Aydın
+        </span>
+        <span class="flex items-center">
+          <svg class="w-5 h-5 mr-2 text-[#1c1c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+          </svg>
+          <%= project.year || '2023' %>
+        </span>
+      </div>
+    </header>
+
+    <!-- Main Project Image -->
+    <div class="relative rounded-2xl overflow-hidden shadow-xl mb-12 group">
+      <img src="<%= project.image %>" alt="<%= project.title %>" 
+           class="w-full h-auto max-h-[32rem] object-cover object-center transition-transform duration-500 group-hover:scale-105">
+      <div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+      <div class="absolute bottom-6 left-6 text-white">
+        <h2 class="text-2xl font-bold"><%= project.title %></h2>
+        <p class="text-lg opacity-90">KOTANLAR İNŞAAT</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="grid lg:grid-cols-3 gap-12">
+    <!-- Main Content -->
+    <div class="lg:col-span-2">
+      <!-- Project Description -->
+      <section class="prose prose-lg max-w-none mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-6">Proje Hakkında</h2>
+        <%- project.description %>
+      </section>
+
+      <!-- Gallery -->
+      <section class="mb-16">
+        <h2 class="text-3xl font-bold text-gray-900 mb-8">Galeri</h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+          <% project.gallery.forEach((image, index) => { %>
+          <a href="<%= image %>" data-fslightbox="gallery" class="group">
+            <div class="aspect-w-16 aspect-h-9 overflow-hidden rounded-xl shadow-md">
+              <img style="height: 100px;" src="<%= image %>" alt="<%= project.title %> galeri görseli <%= index + 1 %>"
+              class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" />
+            </div>
+          </a>
+          <% }); %>
+        </div>
+      </section>
+
+      <!-- Location Map -->
+      <% if(project.location){ %>
+        <section class="mb-16">
+          <h2 class="text-3xl font-bold text-gray-900 mb-8">Konum</h2>
+          <div class="rounded-2xl overflow-hidden shadow-xl">
+            <iframe class="w-full h-96"
+                    src="<%= project.location %>"
+                    loading="lazy"
+                    allowfullscreen
+                    referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </section>
+        <% } else {} %>
+    </div>  
+  
+    <!-- Sidebar -->
+    <div class="lg:col-span-1">
+      <!-- Project Details -->
+      <div class="sticky top-32">
+        <% if (project.details) { %>
+        <section class="bg-white rounded-2xl shadow-xl p-8 mb-8">
+          <h2 class="text-2xl font-bold text-gray-900 mb-6 border-b pb-4">Teknik Detaylar</h2>
+          <div class="space-y-6">
+            <% Object.entries(project.details).forEach(([key, value]) => { %>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 mb-1 flex items-center">
+                <svg class="w-5 h-5 mr-2 text-[#1c1c1c]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                </svg>
+                <%= key %>
+              </h3>
+              <p class="text-gray-600 pl-7"><%= value %></p>
+            </div>
+            <% }); %>
+          </div>
+        </section>
+        <% } %>
+
+        <!-- CTA Section -->
+        <section class="bg-[#1c1c1c] rounded-2xl shadow-xl p-8 text-white">
+          <h2 class="text-2xl font-bold mb-4">Daha Fazla Bilgi Alın</h2>
+          <p class="mb-6 opacity-90">Bu proje hakkında detaylı bilgi almak için bizimle iletişime geçin.</p>
+          <a href="/contact" class="inline-block bg-white text-[#1c1c1c] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition w-full text-center">
+            İletişime Geç
+          </a>
+        </section>
+      </div>
+    </div>
+  </div>
+ 
+</main>
+
+<!-- Scripts -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fslightbox/3.3.1/index.min.js"></script>
+
+<%- include("partials/footer-other") %>
