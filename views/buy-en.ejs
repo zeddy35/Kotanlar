@@ -1,0 +1,103 @@
+<%- include("partials/path/header-path-en") %>
+<main class="pt-24 pb-12">
+
+    <div class="container">
+        <header class="content-header">
+            <!-- SVG Background Elements -->
+            <svg class="svg-bg svg-bg-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M45.2,-58.8C58.1,-46.6,68,-30.3,71.1,-12.5C74.2,5.3,70.5,24.6,59.1,40.3C47.7,56,28.6,68.1,7.1,65.3C-14.4,62.5,-38.2,44.8,-52.8,24.4C-67.4,4,-72.7,-19.1,-63.8,-36.7C-54.9,-54.3,-31.7,-66.4,-9.3,-61.6C13,-56.8,26.1,-35.1,45.2,-58.8Z" transform="translate(100 100)" />
+            </svg>
+            <svg class="svg-bg svg-bg-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <path fill="currentColor" d="M38.8,-50.8C50.9,-42.2,61.9,-31.3,65.7,-18.1C69.5,-4.8,66.2,10.8,58.5,24.9C50.8,39,38.8,51.6,23.8,59.5C8.8,67.4,-9.2,70.6,-24.9,64.9C-40.6,59.2,-54,44.6,-60.9,27.9C-67.8,11.2,-68.2,-7.6,-61.7,-23.8C-55.2,-40,-41.8,-53.6,-27.1,-61.3C-12.3,-69,3.7,-70.8,18.2,-66.1C32.7,-61.4,45.6,-50.2,38.8,-50.8Z" transform="translate(100 100)" />
+            </svg>
+            
+            <div class="header-content">
+                <h1>PURCHASE PROCESS 🏡</h1>
+                <p class="header-description">Professional processes to guide you in your real estate purchase transactions</p>
+            </div>
+        </header>
+        
+        <div class="process-container">
+            <!-- Step 1 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-icon">🔍</div>
+                    <div>Real Estate Selection and Evaluation</div>
+                </div>
+                <div class="step-content">
+                    <p>To help our customers understand the purchase process, we outline below the essential stages a property must go through before being officially sold.</p>
+                    <p>After listening to your requests, we prepare a list of the most suitable properties from our projects and evaluate the properties you like by visiting them together.</p>
+                </div>
+            </div>
+            
+            <!-- Step 2 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-icon">📝</div>
+                    <div>SALES CONTRACT, RESERVATION & DEPOSIT</div>
+                </div>
+                <div class="step-content">
+                    <p>Before the deposit is paid, a sales contract is prepared by KOTANLAR CONSTRUCTION. This contract includes the agreed sale price of the property, payment dates, delivery date, the rights of both parties, and any special conditions agreed upon.</p>
+                </div>
+            </div>
+            
+            <!-- Step 3 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-icon">📑</div>
+                    <div>Documents Required for Title Deed Transfer</div>
+                </div>
+                <div class="step-content">
+                    <div class="documents-section">
+                        <h4><span>📌</span> Seller:</h4>
+                        <ul class="documents-list">
+                            <li>1 photograph</li>
+                            <li>Original and photocopy of ID card</li>
+                            <li>Photocopy of title deed</li>
+                            <li>Municipality declaration value</li>
+                            <li>Photocopy of earthquake insurance (DASK)</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="documents-section">
+                        <h4><span>📌</span> Buyer:</h4>
+                        <ul class="documents-list">
+                            <li>2 photographs</li>
+                            <li>Original and photocopy of ID card</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4 -->
+            <div class="process-step">
+                <div class="step-header">
+                    <div class="step-icon">🏛️</div>
+                    <div>TITLE DEED TRANSFER</div>
+                </div>
+                <div class="step-content">
+                    <h3>🇹🇷 For citizens of the Republic of Turkey:</h3>
+                    <p>If all procedures are arranged as specified above, your information is submitted to the title deed office between 09:00 and 12:00 in the morning, and the seller is informed via SMS. After the necessary fees are deposited at the state bank in the afternoon, the title deed transfer process takes place, and the title deed will be issued in your name at the title deed office.</p>
+                    
+                    <h3>🌍 For non-citizens of the Republic of Turkey:</h3>
+                    <p>If all procedures are arranged as specified above, both the buyer's information and the property details will be submitted to the Title Deed Cadastre Directorate by our staff. From there, this information is forwarded to the Aegean Army Command to check the application request. This is because the sale of certain areas in Turkey to foreigners is prohibited.</p>
+                    <p>According to the new law enacted in 2014, if at least one foreigner has purchased property on the same plot, other foreign citizens can receive their title deed on the same day without needing to apply again to the AEGEAN ARMY COMMAND.</p>
+                    <p>⏳ Army permission approval takes approximately 3 months, and once approved, you can receive your title deed issued in your name from the title deed office or your lawyer.</p>
+                </div>
+            </div>
+        </div>  
+    </div>
+</main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            AOS.init({
+                duration: 800,
+                easing: 'ease-in-out',
+                once: true
+            });
+        });
+    </script>
+
+<%- include("partials/path/footer-path") %>

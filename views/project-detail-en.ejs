@@ -1,17 +1,17 @@
-<%- include("partials/path/header-path") %>
+<%- include("partials/path/header-path-en") %>
 
 <main class="pt-24 pb-12">
   <!-- Project Hero Section -->
   <section class="relative h-96 w-full overflow-hidden">
     <img 
       src="<%= project.image %>" 
-      alt="<%= project.title %>" 
+      alt="<%= project.title_eng %>" 
       class="w-full h-full object-cover"
       loading="eager"
     >
     <div class="absolute inset-0 bg-black/40 flex items-end pb-12">
       <div class="container mx-auto px-6">
-        <h1 class="text-4xl md:text-5xl font-bold text-white"><%= project.title %></h1>
+        <h1 class="text-4xl md:text-5xl font-bold text-white"><%= project.title_eng  %></h1>
       </div>
     </div>
   </section>
@@ -20,14 +20,20 @@
   <div class="container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-8">
     <!-- Main content column -->
     <div class="flex-1">
+      <% if (project['description-eng']) { %>
         <div class="prose max-w-none">
-          <%- project.description %>
+          <%- project['description-eng'] %>
         </div>
+      <% } else { %>
+        <div class="prose max-w-none">
+          <%- project.description-en %>
+        </div>
+      <% } %>
 
       <!-- Gallery Section -->
       <% if (project.gallery && project.gallery.length > 0) { %>
         <div class="mt-16">
-          <h2 class="text-2xl font-bold mb-8">Galeri</h2>
+          <h2 class="text-2xl font-bold mb-8">Gallery</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <% project.gallery.forEach(image => { %>
               <a href="<%= image %>" data-fancybox="gallery" class="block overflow-hidden rounded-lg group">
@@ -44,13 +50,13 @@
       <% } %>
     </div>
 
-    <!-- Sticky sidebar column -->
+    <!-- Sticky sidebar column - NEW POSITIONING -->
     <div class="lg:w-80 shrink-0">
       <section class="sticky top-24 bg-[#1c1c1c] rounded-2xl shadow-xl p-8 text-white">
-        <h2 class="text-2xl font-bold mb-4">Daha Fazla Bilgi Alın</h2>
-        <p class="mb-6 opacity-90">Proje hakkında daha fazla bilgi almak için bizimle iletişime geçin.</p>
+        <h2 class="text-2xl font-bold mb-4">Get More Information</h2>
+        <p class="mb-6 opacity-90">Contact us for further information about the project.</p>
         <a href="/contact" class="inline-block bg-white text-[#1c1c1c] px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition w-full text-center">
-          Bize Ulaşın
+          Contact Us
         </a>
       </section>
     </div>

@@ -1,0 +1,20 @@
+/* Add to your projects.css */
+#mobile-menu {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#mobile-menu.hidden {
+  display: none;
+  visibility: hidden;
+  opacity: 0;
+}
+
+#mobile-menu:not(.hidden) {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
+body.menu-open {
+  overflow: hidden;
+}

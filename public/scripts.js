@@ -35,8 +35,8 @@
       logo.classList.add("text-bla");
       lillogo.classList.remove("text-gray-300");
       lillogo.classList.add("text-gray-900");
-      hamburgerLines.forEach(line => {
-        line.style.backgroundColor = "black";
+      hamburger_line.forEach(line => {
+      line.style.backgroundColor = "black";
       });
 
 

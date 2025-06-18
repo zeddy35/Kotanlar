@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kotanlar</title>
+  <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="/css/styles.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Mobile menu styles */
+    #mobile-menu {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, 0.9);
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 40;
+      transform: translateX(100%);
+      transition: transform 0.3s ease-in-out;
+    }
+    
+    #mobile-menu.active {
+      transform: translateX(0);
+      display: flex;
+    }
+    
+    .hamburger-line {
+      transition: all 0.3s ease;
+    }
+    
+    /* Prevent scrolling when menu is open */
+    body.menu-open {
+      overflow: hidden;
+    }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: var(--text);
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .step-header {
+                font-size: 1.1rem;
+            }
+        }
+  </style>
+</head>
+<body class="bg-[#f5f5f0] text-[#1c1c1c]">
+
+<nav id="navbar" class="flex justify-between items-center p-6 fixed w-full z-50  transition-all duration-300 h-24 ">
+  <div class="flex items-center space-x-4">
+    <a href="/" class="inline-block transition-transform duration-300 hover:scale-110 hover:drop-shadow-lg">
+      <img src="/images/logo.png" alt="Logo" style="background-color: transparent;" class="w-12 h-12">
+    </a>
+    <div>
+      <div id="logo" class="text-2xl font-bold uppercase tracking-wide text-white">Kotanlar</div>
+      <div id="lillogo" class="text-lg italic text-gray-300">
+        Evinizi Kaliteye Taşıyın
+      </div>
+    </div>
+  </div>
+
+  <!-- Desktop Navigation -->
+  <div id="nav-links" class="space-x-6 text-xl text-black font-semibold hidden md:flex items-center relative z-50">
+    <a href="/" class="relative group scroll-smooth">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Ana Sayfa</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/#about" class="relative group scroll-smooth">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Hakkımızda</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/projects" class="relative group">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Projelerimiz</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/buy" class="relative group">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Alım İşlemleri</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+    
+    <a href="/#contact" class="relative group">
+      <h1 class="transition duration-300 group-hover:text-blue-400">Bize Ulaşın</h1>
+      <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
+    </a>
+
+    <a href="/en" id="lang-btn" class="px-6 py-3 bg-white text-black font-semibold rounded-full 
+      hover:bg-blue-400 hover:text-white transition duration-300">
+      EN / TR
+    </a>
+  </div>
+
+  <!-- Mobile Hamburger Button -->
+  <button id="hamburger-btn" class="md:hidden focus:outline-none z-50">
+    <div class="w-8 space-y-2">
+      <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
+      <span class="block h-0.5 w-full bg-white hamburger-line transition-opacity"></span>
+      <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
+    </div>
+  </button>
+</nav>
+
+<!-- Mobile Menu Overlay -->
+<div id="mobile-menu" class="fixed inset-0 z-40">
+  <div class="absolute inset-0 bg-black bg-opacity-90"></div>
+  <div class="relative z-50 h-full flex flex-col items-center justify-center space-y-8">
+    <a href="/" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Ana sayfa</a>
+    <a href="/#about" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Hakkımızda</a>
+    <a href="/projects" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Projelerimiz</a>
+    <a href="/buy" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Alım İşlemleri</a>
+    <a href="/#contact" class="text-2xl text-white font-semibold hover:text-blue-400 transition duration-300 mobile-nav-link">Bize Ulaşın</a>
+    <a href="/en" class="px-6 py-3 bg-white text-black font-semibold rounded-full 
+      hover:bg-blue-400 hover:text-white transition duration-300 mt-4 mobile-nav-link">
+      EN / TR
+  </a>
+  </div>
+</div>
