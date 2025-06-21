@@ -1,0 +1,30 @@
+<!-- views/admin/login.ejs -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Giriş</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <form method="POST" action="/admin/login" class="bg-white p-8 rounded shadow-md w-full max-w-sm">
+    <h1 class="text-xl font-bold mb-6 text-center">Yönetici Girişi</h1>
+    
+    <% if (error) { %>
+      <p class="text-red-500 mb-4 text-sm"><%= error %></p>
+    <% } %>
+
+    <div class="mb-4">
+      <label class="block mb-1 text-sm font-medium">Kullanıcı Adı</label>
+      <input type="text" name="username" class="w-full border px-3 py-2 rounded" required />
+    </div>
+
+    <div class="mb-6">
+      <label class="block mb-1 text-sm font-medium">Şifre</label>
+      <input type="password" name="password" class="w-full border px-3 py-2 rounded" required />
+    </div>
+
+    <button type="submit" class="w-full bg-green-600 text-white py-2 rounded hover:bg-green-700 transition">Giriş Yap</button>
+  </form>
+</body>
+</html>

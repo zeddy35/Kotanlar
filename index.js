@@ -1,10 +1,11 @@
-// index.js (veya app.js)
+// index.js 
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import bodyParser from 'body-parser';
+import session from 'express-session';
 
 import adminRoutes from './routes/admin.js';
 import mainRoutes from './routes/main.js';
@@ -23,12 +24,18 @@ mongoose.connect(process.env.MONGODB_URI)
 
 // View engine
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
+app.set('views', path.join(__dirname, './views'));
 
 // Middleware
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(session({
+  secret: 'çok-gizli-bir-string',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: false } // VDS’te HTTPS olursa true yapılabilir
+}));
 
 // Routes
 app.use('/', mainRoutes);

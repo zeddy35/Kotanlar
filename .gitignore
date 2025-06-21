@@ -1,1 +1,17 @@
-.vercel
+# Node modules
+node_modules/
+
+# Env
+.env
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Uploads
+public/images/
+
+# VSCode & Mac
+.vscode/
+.DS_Store

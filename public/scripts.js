@@ -123,6 +123,40 @@
     document.getElementById('lightbox').classList.add('hidden');
   });
 
+
+  const form = document.getElementById("contactForm");
+  const successBox = document.getElementById("successMessage");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // Sayfa yenilenmesin
+
+    const formData = new FormData(form);
+    const formBody = new URLSearchParams(formData);
+
+    try {
+      const res = await fetch("/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: formBody.toString(),
+      });
+
+      const data = await res.json();
+
+      if (data.success) {
+        successBox.classList.remove("hidden");
+        form.reset(); // Formu temizle
+      } else {
+        alert("Form gönderilirken bir hata oluştu.");
+        console.error(data);
+      }
+    } catch (err) {
+      console.error("Hata:", err);
+      alert("Sunucuya ulaşılamıyor.");
+    }
+  });
+  
   // Initialize Glide slider
   new Glide('.glide', {
     type: 'carousel',

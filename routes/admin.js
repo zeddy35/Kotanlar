@@ -3,12 +3,48 @@ import { Project } from '../models/Projects.js';
 import multer from 'multer';
 import fs from 'fs';
 import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import slugify from 'slugify';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const router = express.Router();
 
-// Multer storage ayarı
+// 🔐 Login kontrol
+const ADMIN_USER = process.env.ADMIN_USER || 'admin';
+const ADMIN_PASS = process.env.ADMIN_PASS || '123456';
+
+function isAuthenticated(req, res, next) {
+  if (req.session && req.session.admin) return next();
+  return res.redirect('/admin/login');
+}
+
+// 🔐 Login Sayfası
+router.get('/login', (req, res) => {
+  const error = req.session.loginError || null;
+  req.session.loginError = null; // gösterdikten sonra sıfırla
+  res.render('admin/login', { error });
+});
+
+// 🔐 Login POST
+router.post('/login', (req, res) => {
+  const { username, password } = req.body;
+
+  if (username === ADMIN_USER && password === ADMIN_PASS) {
+    req.session.admin = true;
+    return res.redirect('/admin/projects');
+  } else {
+    req.session.loginError = 'Hatalı kullanıcı adı veya şifre';
+    return res.redirect('/admin/login');
+  }
+});
+
+// 🔐 Logout
+router.get('/logout', (req, res) => {
+  req.session.destroy(() => res.redirect('/admin/login'));
+});
+
+// --- Multer ayarları (görsel yükleme vs.) ---
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const slug = req.body.slug || slugify(req.body.title || 'proje', { lower: true, strict: true });
@@ -24,35 +60,24 @@ const storage = multer.diskStorage({
 
     const fieldName = file.fieldname;
     const index = req.fileIndex[fieldName]++;
-
-    const fileName =
-      fieldName === 'coverImage'
-        ? `coverImage${ext}`
-        : `${slug}_${index}${ext}`;
-
+    const fileName = fieldName === 'coverImage' ? `coverImage${ext}` : `${slug}_${index}${ext}`;
     cb(null, fileName);
   }
 });
 
 const upload = multer({ storage });
 
-// Admin Panel - Listeleme
-router.get('/projects', async (req, res) => {
-  try {
-    const projects = await Project.find().sort({ createdAt: -1 });
-    res.render('admin/list', { projects });
-  } catch (err) {
-    res.status(500).send("Sunucu hatası");
-  }
+// --- Admin işlemleri (korumalı) ---
+router.get('/projects', isAuthenticated, async (req, res) => {
+  const projects = await Project.find().sort({ createdAt: -1 });
+  res.render('admin/list', { projects });
 });
 
-// Yeni proje formu
-router.get('/add', (req, res) => {
+router.get('/add', isAuthenticated, (req, res) => {
   res.render('admin/add');
 });
 
-// Yeni proje kaydet
-router.post('/add', upload.fields([
+router.post('/add', isAuthenticated, upload.fields([
   { name: 'coverImage', maxCount: 1 },
   { name: 'galleryImages', maxCount: 30 }
 ]), async (req, res) => {
@@ -86,12 +111,10 @@ router.post('/add', upload.fields([
   }
 });
 
-// Düzenleme sayfası
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', isAuthenticated, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).send("Proje bulunamadı");
-
     if (!project.galleryImages) project.galleryImages = [];
     res.render('admin/edit', { project });
   } catch (err) {
@@ -99,8 +122,7 @@ router.get('/edit/:id', async (req, res) => {
   }
 });
 
-// Proje güncelle
-router.post('/edit/:id', upload.fields([
+router.post('/edit/:id', isAuthenticated, upload.fields([
   { name: 'coverImage', maxCount: 1 },
   { name: 'galleryImages', maxCount: 10 }
 ]), async (req, res) => {
@@ -116,52 +138,28 @@ router.post('/edit/:id', upload.fields([
     const oldSlug = project.slug;
     let updatedGalleryImages = [...(project.galleryImages || [])];
 
-    // Eski slug farklıysa klasörü yeniden adlandır
     if (oldSlug !== newSlug) {
       const oldPath = path.join('public', 'images', oldSlug);
       const newPath = path.join('public', 'images', newSlug);
       if (fs.existsSync(oldPath)) fs.renameSync(oldPath, newPath);
-
       updatedGalleryImages = updatedGalleryImages.map(img =>
         img.replace(`/images/${oldSlug}/`, `/images/${newSlug}/`)
-
       );
-
-      // Eğer slug değiştiyse eski klasör varsa ve artık boşsa sil
       setTimeout(() => {
-      if (fs.existsSync(oldPath) && fs.readdirSync(oldPath).length === 0) {
+        if (fs.existsSync(oldPath) && fs.readdirSync(oldPath).length === 0) {
           fs.rmdirSync(oldPath);
         }
       }, 500);
-
-      // Yeni yüklenen coverImage
-      let coverImage = project.coverImage;
-
-      if (req.files['coverImage']?.[0]) {
-        // Yeni görsel yüklenmişse doğrudan yeni path
-        coverImage = `/images/${newSlug}/${req.files['coverImage'][0].filename}`;
-      } else if (oldSlug !== newSlug && coverImage.includes(`/images/${oldSlug}/`)) {
-        // Yeni görsel yüklenmediyse ve slug değiştiyse cover image path'ini güncelle
-        const oldCoverPath = path.join('public', coverImage);
-        const newCoverPath = oldCoverPath.replace(`/images/${oldSlug}/`, `/images/${newSlug}/`);
-        const newCoverDir = path.dirname(newCoverPath);
-        if (!fs.existsSync(newCoverDir)) fs.mkdirSync(newCoverDir, { recursive: true });
-        if (fs.existsSync(oldCoverPath)) fs.renameSync(oldCoverPath, newCoverPath);
-        coverImage = coverImage.replace(`/images/${oldSlug}/`, `/images/${newSlug}/`);
-      }
-
     }
 
-    // Yeni yüklenen coverImage
+    let coverImage = project.coverImage;
     if (req.files['coverImage']?.[0]) {
       coverImage = `/images/${newSlug}/${req.files['coverImage'][0].filename}`;
     }
 
-    // Yeni galeri görselleri
     const newGallery = req.files['galleryImages']?.map(file => `/images/${newSlug}/${file.filename}`) || [];
     updatedGalleryImages.push(...newGallery);
 
-    // Silinen görseller
     if (removedGalleryImages) {
       const toRemove = removedGalleryImages.split(',');
       updatedGalleryImages = updatedGalleryImages.filter(img => !toRemove.includes(img));
@@ -171,7 +169,6 @@ router.post('/edit/:id', upload.fields([
       });
     }
 
-    // Güncelle
     await Project.findByIdAndUpdate(req.params.id, {
       title,
       title_eng,
@@ -192,9 +189,7 @@ router.post('/edit/:id', upload.fields([
   }
 });
 
-// Sil
-router.post('/delete/:id', async (req, res) => {
-  //Proje Silindiğinde Görsel Klasörünü Sil
+router.post('/delete/:id', isAuthenticated, async (req, res) => {
   const project = await Project.findById(req.params.id);
   if (project) {
     const slugFolder = path.join('public', 'images', project.slug);
