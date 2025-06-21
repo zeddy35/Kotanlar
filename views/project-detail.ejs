@@ -4,8 +4,8 @@
   <!-- Project Hero Section -->
   <section class="relative h-96 w-full overflow-hidden">
     <img 
-      src="<%= project.image %>" 
-      alt="<%= project.title %>" 
+      src="<%= project.coverImage %>" 
+        alt="<%= project.title %>" 
       class="w-full h-full object-cover"
       loading="eager"
     >
@@ -16,7 +16,6 @@
     </div>
   </section>
 
-  <!-- Project Content - REMOVED STICKY FROM THIS CONTAINER -->
   <div class="container mx-auto px-6 py-12 flex flex-col lg:flex-row gap-8">
     <!-- Main content column -->
     <div class="flex-1">
@@ -30,6 +29,7 @@
           <h2 class="text-2xl font-bold mb-8">Galeri</h2>
           <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             <% project.gallery.forEach(image => { %>
+              <% if (image !== project.coverImage) { %>
               <a href="<%= image %>" data-fancybox="gallery" class="block overflow-hidden rounded-lg group">
                 <img 
                   src="<%= image %>" 
@@ -38,7 +38,7 @@
                   loading="lazy"
                 >
               </a>
-            <% }) %>
+            <% }}); %>
           </div>
         </div>
       <% } %>
@@ -64,8 +64,8 @@
         <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
           <a href="/projects-en/<%= project.slug %>" class="block h-full">
             <img 
-              src="<%= project.image %>" 
-              alt="<%= project.title %>" 
+              src="<%= project.coverImage %>" 
+              alt="<%= project.title%>" 
               class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
             />

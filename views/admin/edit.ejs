@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Proje Düzenle</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .form-header {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+    }
+    .form-card {
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      border-radius: 1rem;
+    }
+    .form-input {
+      transition: all 0.2s ease;
+      border-width: 1px;
+    }
+    .form-input:focus {
+      box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.2);
+    }
+    .file-upload-area {
+      transition: all 0.3s ease;
+    }
+    .file-upload-area:hover {
+      border-color: #6b7280;
+    }
+    .submit-btn {
+      background: linear-gradient(135deg, #059669 0%, #047857 100%);
+      transition: all 0.3s ease;
+    }
+    .submit-btn:hover {
+      background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+      transform: translateY(-1px);
+    }
+    .current-image {
+      max-height: 200px;
+      border-radius: 0.375rem;
+      border: 1px solid #e5e7eb;
+    }
+  </style>
+</head>
+<body class="bg-gray-50">
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <div class="form-card bg-white overflow-hidden">
+      <!-- Form Header -->
+      <div class="form-header px-6 py-4">
+        <h1 class="text-2xl font-bold text-white flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+          </svg>
+          Proje Düzenle
+        </h1>
+      </div>
+
+      <!-- Form Content -->
+      <form action="/admin/edit/<%= project._id %>" method="POST" enctype="multipart/form-data" class="p-6 space-y-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Turkish Title -->
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-700 mb-1">Başlık (Türkçe) *</label>
+            <input 
+              type="text" 
+              id="title" 
+              name="title" 
+              value="<%= project.title %>" 
+              required
+              class="form-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500"
+            >
+          </div>
+
+          <!-- English Title -->
+          <div>
+            <label for="title_eng" class="block text-sm font-medium text-gray-700 mb-1">Başlık (English)</label>
+            <input 
+              type="text" 
+              id="title_eng" 
+              name="title_eng" 
+              value="<%= project.title_eng %>" 
+              class="form-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500"
+            >
+          </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Location -->
+          <div>
+            <label for="location" class="block text-sm font-medium text-gray-700 mb-1">Lokasyon</label>
+            <input 
+              type="text" 
+              id="location" 
+              name="location" 
+              value="<%= project.location %>" 
+              class="form-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500"
+            >
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Turkish Description -->
+          <div>
+            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Açıklama (Türkçe)</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows="5"
+              class="form-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500"
+            ><%= project.description %></textarea>
+          </div>
+
+          <!-- English Description -->
+          <div>
+            <label for="description_eng" class="block text-sm font-medium text-gray-700 mb-1">Açıklama (English)</label>
+            <textarea 
+              id="description_eng" 
+              name="description_eng" 
+              rows="5"
+              class="form-input w-full px-4 py-3 rounded-lg focus:ring-2 focus:ring-green-500"
+            ><%= project.description_eng %></textarea>
+          </div>
+        </div>
+
+        <!-- Main Image Upload -->
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-1">Mevcut Ana Görsel</label>
+            <% if (project.coverImage) { %>
+              <img src="<%= project.coverImage %>" class="current-image max-w-full h-auto">
+            <% } else { %>
+              <p class="text-sm text-gray-500">Mevcut ana görsel bulunmamaktadır</p>
+            <% } %>
+          </div>
+          
+          <div>
+            <label class="block text-sm font-medium text-gray-700 mb-2">Yeni Ana Görsel Yükle</label>
+            <div class="file-upload-area mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+              <div class="space-y-1 text-center">
+                <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+                  <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+                <div class="flex text-sm text-gray-600">
+                  <label for="image" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none">
+                    <span>Dosya seçin</span>
+                    <input 
+                      id="coverImage" 
+                      name="coverImage" 
+                      type="file" 
+                      accept="image/*"
+                      class="sr-only"
+                    >
+                  </label>
+                  <p class="pl-1">veya sürükleyip bırakın</p>
+                </div>
+                <p class="text-xs text-gray-500">PNG, JPG, GIF (Maks. 5MB)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery Images Upload -->
+          <div class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-1">Mevcut Galeri Görselleri</label>
+      <% if (project.galleryImages && project.galleryImages.length > 0) { %>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2">
+          <% project.galleryImages.forEach(image => { 
+            // Normalize the image path
+            let imagePath = image;
+            
+            // Ensure path starts with a slash if it doesn't already
+            if (!imagePath.startsWith('/')) {
+              imagePath = '/' + imagePath;
+            }
+            
+            // Remove any duplicate slashes
+            imagePath = imagePath.replace(/([^:]\/)\/+/g, '$1');
+            
+            // Debug output (remove in production)
+            console.log('Rendering gallery image:', imagePath);
+          %>
+            <div class="relative group">
+              <img 
+                src="<%= imagePath %>" 
+                class="h-24 w-full object-cover rounded-md border border-gray-200"
+                onerror="this.onerror=null;this.src='/images/placeholder.jpg';"
+              >
+              <button 
+                type="button" 
+                class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-opacity opacity-0 group-hover:opacity-100"
+                onclick="removeGalleryImage(this, '<%= imagePath %>')"
+                title="Resmi sil"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+          <% }) %>
+        </div>
+      <% } else { %>
+        <p class="text-sm text-gray-500">Mevcut galeri görseli bulunmamaktadır</p>
+      <% } %>
+    </div>
+    
+    <div>
+      <label class="block text-sm font-medium text-gray-700 mb-2">Yeni Galeri Görselleri Ekle</label>
+      <div class="file-upload-area mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+        <div class="space-y-1 text-center">
+          <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48" aria-hidden="true">
+            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+          <div class="flex text-sm text-gray-600">
+            <label for="galleryImages" class="relative cursor-pointer bg-white rounded-md font-medium text-green-600 hover:text-green-500 focus-within:outline-none">
+              <span>Dosyaları seçin</span>
+              <input 
+                id="galleryImages" 
+                name="galleryImages" 
+                type="file" 
+                multiple 
+                accept="image/*"
+                class="sr-only"
+              >
+            </label>
+            <p class="pl-1">veya sürükleyip bırakın</p>
+          </div>
+          <p class="text-xs text-gray-500">Çoklu seçim desteklenir – PNG, JPG, GIF (Maks. 5MB)</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden field for removed gallery images -->
+  <input type="hidden" id="removedGalleryImages" name="removedGalleryImages" value="">
+
+        <!-- Submit Button -->
+        <div class="flex justify-end pt-4">
+          <button 
+            type="submit" 
+            class="submit-btn inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+            </svg>
+            Projeyi Güncelle
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  </div>
+  <script>
+    function removeGalleryImage(button, imageUrl) {
+      const removedInput = document.getElementById('removedGalleryImages');
+      const currentRemoved = removedInput.value ? removedInput.value.split(',') : [];
+
+      if (!currentRemoved.includes(imageUrl)) {
+        currentRemoved.push(imageUrl);
+        removedInput.value = currentRemoved.join(',');
+
+        const imageElement = button.closest('.relative');
+        if (imageElement) {
+          imageElement.classList.add('opacity-0', 'transition-opacity', 'duration-300');
+          setTimeout(() => {
+            imageElement.remove();
+            if (document.querySelectorAll('.grid .relative').length === 0) {
+              const container = button.closest('.space-y-4');
+              if (container) {
+                const message = document.createElement('p');
+                message.className = 'text-sm text-gray-500';
+                message.textContent = 'Mevcut galeri görseli bulunmamaktadır';
+                container.insertBefore(message, container.querySelector('div'));
+              }
+            }
+          }, 300);
+        }
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      console.log('Project data:', {
+        title: '<%= project.title %>',
+        image: '<%= project.coverImage %>'
+      });
+    });
+  </script>
+</body>
+</html>
