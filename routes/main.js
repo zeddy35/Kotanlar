@@ -1,5 +1,5 @@
 import express from 'express';
-import { Project } from '../models/Projects.js'; // 👈 Yolu uyarlayabilirsin
+import { Project } from '../models/Projects.js';
 import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
@@ -9,12 +9,11 @@ import nodemailer from 'nodemailer';
 
 dotenv.config();
 
-
+const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
-const router = express.Router();
 
-// Mail
+// Mail ayarları
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -40,7 +39,7 @@ const sendFormMail = async ({ name, email, phone, message }) => {
   await transporter.sendMail(mailOptions);
 };
 
-// Sayfalar (route'lar)
+// Ana sayfa ve projeler
 router.get('/', async (req, res) => {
   const projects = await Project.find();
   res.render('index', { projects });
@@ -53,21 +52,24 @@ router.get('/en', async (req, res) => {
 
 router.get('/buy', (req, res) => res.render('buy'));
 router.get('/buy-en', (req, res) => res.render('buy-en'));
+
 router.get('/projects', async (req, res) => {
   const projects = await Project.find();
   res.render('projects', { projects });
 });
+
 router.get('/projects-en', async (req, res) => {
   const projects = await Project.find();
   res.render('projects-en', { projects });
 });
+
 router.get('/projects/:slug', async (req, res) => {
   try {
     const project = await Project.findOne({ slug: req.params.slug });
     if (!project) return res.status(404).send("Proje bulunamadı");
 
     const folderName = project.slug;
-    const imageDir = path.join(__dirname, 'public/images', folderName);
+    const imageDir = path.join(__dirname, '../public/images', folderName);
     let galleryImages = [];
 
     try {
@@ -93,7 +95,7 @@ router.get('/projects-en/:slug', async (req, res) => {
     if (!project) return res.status(404).send("Project not found");
 
     const folderName = project.slug;
-    const imageDir = path.join(__dirname, 'public/images', folderName);
+    const imageDir = path.join(__dirname, '../public/images', folderName);
     let galleryImages = [];
 
     try {

@@ -1,3 +1,4 @@
+// routes/admin.js
 import express from 'express';
 import { Project } from '../models/Projects.js';
 import multer from 'multer';
@@ -5,31 +6,36 @@ import fs from 'fs';
 import path from 'path';
 import slugify from 'slugify';
 import dotenv from 'dotenv';
+import rateLimit from 'express-rate-limit';
 
 dotenv.config();
 
 const router = express.Router();
 
-// 🔐 Login kontrol
-const ADMIN_USER = process.env.ADMIN_USER || 'admin';
-const ADMIN_PASS = process.env.ADMIN_PASS || '123456';
+const ADMIN_USER = process.env.ADMIN_USER || 'YDKotan';
+const ADMIN_PASS = process.env.ADMIN_PASS || '4af1a-rqwe3-adfgR4';
+
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 20,
+  message: 'Çok fazla istek! Lütfen sonra tekrar deneyin.'
+});
+
+router.use('/submit', limiter);
 
 function isAuthenticated(req, res, next) {
   if (req.session && req.session.admin) return next();
   return res.redirect('/admin/login');
 }
 
-// 🔐 Login Sayfası
 router.get('/login', (req, res) => {
   const error = req.session.loginError || null;
-  req.session.loginError = null; // gösterdikten sonra sıfırla
+  req.session.loginError = null;
   res.render('admin/login', { error });
 });
 
-// 🔐 Login POST
 router.post('/login', (req, res) => {
   const { username, password } = req.body;
-
   if (username === ADMIN_USER && password === ADMIN_PASS) {
     req.session.admin = true;
     return res.redirect('/admin/projects');
@@ -39,12 +45,11 @@ router.post('/login', (req, res) => {
   }
 });
 
-// 🔐 Logout
+// LogOut
 router.get('/logout', (req, res) => {
   req.session.destroy(() => res.redirect('/admin/login'));
 });
 
-// --- Multer ayarları (görsel yükleme vs.) ---
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     const slug = req.body.slug || slugify(req.body.title || 'proje', { lower: true, strict: true });
@@ -55,9 +60,9 @@ const storage = multer.diskStorage({
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
     const slug = req.body.slug || slugify(req.body.title || 'proje', { lower: true, strict: true });
-
+    
     if (!req.fileIndex) req.fileIndex = { coverImage: 0, galleryImages: 0 };
-
+    
     const fieldName = file.fieldname;
     const index = req.fileIndex[fieldName]++;
     const fileName = fieldName === 'coverImage' ? `coverImage${ext}` : `${slug}_${index}${ext}`;
@@ -67,7 +72,6 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-// --- Admin işlemleri (korumalı) ---
 router.get('/projects', isAuthenticated, async (req, res) => {
   const projects = await Project.find().sort({ createdAt: -1 });
   res.render('admin/list', { projects });
@@ -82,10 +86,7 @@ router.post('/add', isAuthenticated, upload.fields([
   { name: 'galleryImages', maxCount: 30 }
 ]), async (req, res) => {
   try {
-    const {
-      title, title_eng, location, client, category, description, description_eng
-    } = req.body;
-
+    const { title, title_eng, location, client, category, description, description_eng } = req.body;
     const slug = slugify(title || 'proje', { lower: true, strict: true });
     const cover = req.files['coverImage']?.[0]?.filename || '';
     const gallery = req.files['galleryImages']?.map(file => file.filename) || [];
@@ -106,19 +107,19 @@ router.post('/add', isAuthenticated, upload.fields([
     await newProject.save();
     res.redirect('/admin/projects');
   } catch (error) {
-    console.error("Proje ekleme hatası:", error);
-    res.status(500).send("Sunucu hatası");
+    console.error('Proje ekleme hatası:', error);
+    res.status(500).send('Sunucu hatası');
   }
 });
 
 router.get('/edit/:id', isAuthenticated, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
-    if (!project) return res.status(404).send("Proje bulunamadı");
+    if (!project) return res.status(404).send('Proje bulunamadı');
     if (!project.galleryImages) project.galleryImages = [];
     res.render('admin/edit', { project });
   } catch (err) {
-    res.status(500).send("Sunucu hatası");
+    res.status(500).send('Sunucu hatası');
   }
 });
 
@@ -127,13 +128,10 @@ router.post('/edit/:id', isAuthenticated, upload.fields([
   { name: 'galleryImages', maxCount: 10 }
 ]), async (req, res) => {
   try {
-    const {
-      title, title_eng, location, client, category, description, description_eng, removedGalleryImages
-    } = req.body;
-
+    const { title, title_eng, location, client, category, description, description_eng, removedGalleryImages } = req.body;
     const newSlug = slugify(title || 'proje', { lower: true, strict: true });
     const project = await Project.findById(req.params.id);
-    if (!project) return res.status(404).send("Proje bulunamadı");
+    if (!project) return res.status(404).send('Proje bulunamadı');
 
     const oldSlug = project.slug;
     let updatedGalleryImages = [...(project.galleryImages || [])];
@@ -142,9 +140,7 @@ router.post('/edit/:id', isAuthenticated, upload.fields([
       const oldPath = path.join('public', 'images', oldSlug);
       const newPath = path.join('public', 'images', newSlug);
       if (fs.existsSync(oldPath)) fs.renameSync(oldPath, newPath);
-      updatedGalleryImages = updatedGalleryImages.map(img =>
-        img.replace(`/images/${oldSlug}/`, `/images/${newSlug}/`)
-      );
+      updatedGalleryImages = updatedGalleryImages.map(img => img.replace(`/images/${oldSlug}/`, `/images/${newSlug}/`));
       setTimeout(() => {
         if (fs.existsSync(oldPath) && fs.readdirSync(oldPath).length === 0) {
           fs.rmdirSync(oldPath);
@@ -184,8 +180,8 @@ router.post('/edit/:id', isAuthenticated, upload.fields([
 
     res.redirect('/admin/projects');
   } catch (err) {
-    console.error("Güncelleme hatası:", err);
-    res.status(500).send("Sunucu hatası");
+    console.error('Güncelleme hatası:', err);
+    res.status(500).send('Sunucu hatası');
   }
 });
 
@@ -197,12 +193,11 @@ router.post('/delete/:id', isAuthenticated, async (req, res) => {
       fs.rmSync(slugFolder, { recursive: true, force: true });
     }
   }
-
   try {
     await Project.findByIdAndDelete(req.params.id);
     res.redirect('/admin/projects');
   } catch (err) {
-    res.status(500).send("Silinemedi");
+    res.status(500).send('Silinemedi');
   }
 });
 
