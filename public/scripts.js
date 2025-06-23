@@ -1,89 +1,90 @@
-
-  // AOS başlat
-  AOS.init({
-    duration: 800,
-    once: false
-  });
-
-  // scrollToNext fonksiyonu
-  function scrollToNext() {
-    const nextSection = document.getElementById("about");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    }
+document.addEventListener("DOMContentLoaded", function () {
+  // ✅ AOS başlat
+  if (typeof AOS !== "undefined") {
+    AOS.init({
+      duration: 800,
+      once: false
+    });
   }
-  // Scroll olaylarını tek yerde topla
+  
+  // ✅ Hamburger Menü
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerLines = document.querySelectorAll('.hamburger-line');
+  const body = document.body;
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  
+  function toggleMenu() {
+    mobileMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+    
+    hamburgerLines[0].classList.toggle('rotate-45');
+    hamburgerLines[0].classList.toggle('translate-y-2.5');
+    hamburgerLines[1].classList.toggle('opacity-0');
+    hamburgerLines[2].classList.toggle('-rotate-45');
+    hamburgerLines[2].classList.toggle('-translate-y-2.5');
+  }
+  
+  if (hamburgerBtn && mobileMenu) {
+    hamburgerBtn.addEventListener('click', toggleMenu);
+    
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(link.getAttribute('href'));
+          if (target) {
+            toggleMenu();
+            setTimeout(() => {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+          }
+        } else {
+          toggleMenu();
+        }
+      });
+    });
+    
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu || e.target.classList.contains('bg-black')) {
+        toggleMenu();
+      }
+    });
+  }
+  
+  // ✅ Scroll navbar effects
+  const hero = document.getElementById("hero");
+  const navbar = document.getElementById("navbar");
+  const navLinks = document.getElementById("nav-links");
+  const lillogo = document.getElementById("lillogo");
+  const logo = document.getElementById("logo");
+  
   window.addEventListener("scroll", () => {
-    const hero = document.getElementById("hero");
-    const navbar = document.getElementById("navbar");
-    const hamburger_line = document.querySelectorAll("#hamburger-btn .hamburger-line");
-    const body = document.body;
-    const navLinks = document.getElementById("nav-links");
-    const lillogo = document.getElementById("lillogo");
-    const logo = document.getElementById("logo");
-
     if (hero && window.scrollY > hero.offsetHeight - 50) {
       body.classList.add("after-hero");
     } else {
       body.classList.remove("after-hero");
     }
-
+    
     if (window.scrollY > 20) {
-      navbar.classList.remove("bg-transparent");
-      navbar.classList.add("bg-[#f5f5f0]", "shadow-md");
-      logo.classList.remove("text-white");
-      logo.classList.add("text-bla");
-      lillogo.classList.remove("text-gray-300");
-      lillogo.classList.add("text-gray-900");
-      hamburger_line.forEach(line => {
-      line.style.backgroundColor = "black";
-      });
-
-
-      if (navLinks) {
-        navLinks.classList.remove("text-white");
-        navLinks.classList.add("text-black");
-      }
+      navbar?.classList.add("bg-[#f5f5f0]", "shadow-md");
+      logo?.classList.replace("text-white", "text-black");
+      lillogo?.classList.replace("text-gray-300", "text-gray-900");
+      hamburgerLines?.forEach(line => line.style.backgroundColor = "black");
+      navLinks?.classList.replace("text-white", "text-black");
     } else {
-      navbar.classList.remove("bg-[#f5f5f0]", "shadow-md");
-      logo.classList.add("text-white");
-      logo.classList.remove("text-black");
-      lillogo.classList.add("text-gray-300");
-      lillogo.classList.remove("text-gray-900");
-      hamburgerLines.forEach(line => {
-        line.style.backgroundColor = "white";
-      });
-
-      if (navLinks) {
-        navLinks.classList.add("text-white");
-        navLinks.classList.remove("text-black");
-      }
+      navbar?.classList.remove("bg-[#f5f5f0]", "shadow-md");
+      logo?.classList.replace("text-black", "text-white");
+      lillogo?.classList.replace("text-gray-900", "text-gray-300");
+      hamburgerLines?.forEach(line => line.style.backgroundColor = "white");
+      navLinks?.classList.replace("text-black", "text-white");
     }
   });
-
-
-  // Lightbox
-  const galleryImages = document.querySelectorAll(".gallery-img");
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-
-  if (galleryImages.length > 0 && lightbox && lightboxImg) {
-    galleryImages.forEach((img) => {
-      img.addEventListener("click", () => {
-        lightboxImg.src = img.src;
-        lightbox.classList.remove("hidden");
-      });
-    });
-
-    lightbox.addEventListener("click", () => {
-      lightbox.classList.add("hidden");
-    });
-
-  }
-
-  // Counter Animation
+  
+  // ✅ Counter
   function animateCounter(id, target, duration = 2000) {
     const element = document.getElementById(id);
+    if (!element) return;
     const start = 0;
     const increment = target / (duration / 16);
     let current = start;
@@ -97,74 +98,67 @@
       element.textContent = Math.floor(current);
     }, 16);
   }
-
-  // Initialize counters when visible
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        animateCounter('projects-counter', 6);
-        animateCounter('clients-counter', 200);
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {threshold: 0.5});
-
-  observer.observe(document.getElementById('hero'));
-
-  // Lightbox functionality
-  document.querySelectorAll('#projects img').forEach(img => {
-    img.addEventListener('click', () => {
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox').classList.remove('hidden');
-    });
-  });
-
-  document.getElementById('close-lightbox').addEventListener('click', () => {
-    document.getElementById('lightbox').classList.add('hidden');
-  });
-
-
+  
+  if (hero) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter('projects-counter', 6);
+          animateCounter('clients-counter', 200);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    
+    observer.observe(hero);
+  }
+  
+  // ✅ Form işlemleri
   const form = document.getElementById("contactForm");
   const successBox = document.getElementById("successMessage");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault(); // Sayfa yenilenmesin
-
-    const formData = new FormData(form);
-    const formBody = new URLSearchParams(formData);
-
-    try {
-      const res = await fetch("/submit", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: formBody.toString(),
-      });
-
-      const data = await res.json();
-
-      if (data.success) {
-        successBox.classList.remove("hidden");
-        form.reset(); // Formu temizle
-      } else {
-        alert("Form gönderilirken bir hata oluştu.");
-        console.error(data);
-      }
-    } catch (err) {
-      console.error("Hata:", err);
-      alert("Sunucuya ulaşılamıyor.");
-    }
-  });
   
-  // Initialize Glide slider
-  new Glide('.glide', {
-    type: 'carousel',
-    perView: 1,
-    gap: 30,
-    breakpoints: {
-      768: {
-        perView: 1
+  if (form && successBox) {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const formData = new FormData(form);
+      const formBody = new URLSearchParams(formData);
+      
+      try {
+        const res = await fetch("/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formBody.toString(),
+        });
+        
+        const data = await res.json();
+        if (data.success) {
+          successBox.classList.remove("hidden");
+          form.reset();
+        } else {
+          alert("Form gönderilirken bir hata oluştu.");
+        }
+      } catch (err) {
+        alert("Sunucuya ulaşılamıyor.");
+        console.error("Hata:", err);
       }
-    }
-  }).mount();
+    });
+  }
+  
+  
+  // Aşağı Scroll TR & ENG
+  const nextSection = document.getElementById('about'); 
+  const scrollBtn = document.getElementById('scroll-btn');
+  
+  scrollBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    nextSection.scrollIntoView({ behavior: "smooth"});
+  });
+
+  const nextSection_eng = document.getElementById('about_en'); 
+  
+  scrollBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    nextSection_eng.scrollIntoView({ behavior: "smooth"});
+  });
+
+});

@@ -1,27 +1,17 @@
 <%- include('partials/main/header') %>
 
+
 <!-- Hero -->
 <section id="hero" class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style="background-image: url(/images/hero_section.jpg);">
-  <!-- Dynamic Background Overlay -->
   <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black/30"></div>
-  
-
-
-  <!-- Main Content -->
   <div class="relative z-10 text-center px-4">
-    <div class="  p-8 md:p-12 rounded-xl inline-block  shadow-2xl">
-      <h1 class ="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-4">
-        <span class=" text-white">
-          Modern Mimariyle Tanışın
-        </span>
+    <div class="p-8 md:p-12 rounded-xl inline-block shadow-2xl">
+      <h1 class="text-5xl md:text-7xl font-extrabold text-white tracking-tight leading-tight mb-4">
+        <span class="text-white">Modern Mimariyle Tanışın</span>
       </h1>
-      <div class="flex justify-center gap-4 mt-8 flex-wrap">
-
-      </div>
+      <div class="flex justify-center gap-4 mt-8 flex-wrap"></div>
     </div>
   </div>
-
-  <!-- Stats Bar -->
   <div class="absolute bottom-0 left-0 right-0 bg-black/70 text-white py-4">
     <div class="container mx-auto flex justify-around text-center">
       <div class="px-4">
@@ -29,14 +19,16 @@
         <div class="text-sm uppercase tracking-wider">Tamamlanan Proje</div>
       </div>
       <div class="px-4">
-        <div class="text-3xl font-bold">15+</div>
+        <div class="text-3xl font-bold" id="clients-counter">15+</div>
         <div class="text-sm uppercase tracking-wider">Deneyim Yılı</div>
       </div>
     </div>
   </div>
-
-  <!-- Scroll Indicator -->
-  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 group cursor-pointer" onclick="scrollToNext()">
+  <div id="scroll-btn" class="absolute bottom-8 left-1/2 -translate-x-1/2 z-20 group cursor-pointer">
+    <svg class="w-6 h-6 text-white animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+    </svg>
+  </div>
 </section>
 
 <!-- About -->
@@ -85,39 +77,27 @@
 <section id="projects" class="py-20 px-6 bg-white">
   <div class="max-w-6xl mx-auto">
     <div class="flex justify-between items-center mb-12">
-      <h2 class="text-4xl font-semibold" data-aos="fade-up">Projelerimiz</h2>
+      <h2 class="text-4xl font-semibold" data-aos="fade-up">Our Projects</h2>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <% projects.forEach(project => { %>
-        <div class="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-all duration-300" data-aos="fade-up">
-          <a href="/projects/<%= project.slug %>" class="block h-full">
-            <img 
-              src="<%= project.coverImage %>" 
-              alt="<%= project.title %>" 
-              class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
-              loading="lazy"
-            />
-            <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
-              <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
-                <h3 class="text-white text-xl font-semibold mb-2"><%= project.title %></h3>
-                <p class="text-white text-sm mb-4 line-clamp-2"><%= project.summary %></p>
-                <span class="inline-flex items-center text-white font-medium group-hover:text-yellow-300 transition">
-                  Detaylı Bilgi
-                  <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                  </svg>
-                </span>
-              </div>
-            </div>
-          </a>
+        <div class="group relative overflow-hidden rounded-xl shadow-lg" data-aos="fade-up">
+          <img src="<%= project.coverImage %>" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
+            <h3 class="text-white text-xl font-semibold mb-2"><%= project.title %></h3>
+            <a href="/projects/<%= project.id %>" class="text-white font-medium flex items-center group-hover:text-yellow-300 transition">
+              Details
+              <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          </div>
         </div>
       <% }) %>
     </div>
   </div>
 </section>
-
-
 
 <!-- Process -->
 <section class="py-20 bg-white">
@@ -228,6 +208,8 @@
         </div>
       </div>
 
+      <input type="text" name="website" style="display:none">
+
       <!-- Contact Form -->
       <div data-aos="fade-left">
         <form id="contactForm" action="/submit" method="POST" class="space-y-6">
@@ -249,7 +231,7 @@
             <label for="message" class="block mb-1 font-medium">Mesajınız</label>
             <textarea id="message" name="message" rows="4" class="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1c1c1c]"></textarea>
           </div>
-          <button type="submit" class="w-full bg-[#1c1c1c] text-white py-4 px-6 rounded-lg font-semibold hover:bg-opacity-90 transition">Gönder</button>
+          <button type="submit" class="w-full bg-[#1c1c1c] text-white py-4 px-6 rounded-lg font-semibold hover:bg-blue-400 transition">Gönder</button>
         </form>
         <div id="successMessage" class="hidden bg-green-100 text-green-800 px-6 py-4 rounded-lg shadow mt-6 transition-all duration-500">
           ✅ Mesajınız başarıyla gönderildi. En kısa sürede sizinle iletişime geçeceğiz.
@@ -259,16 +241,5 @@
   </div>
 </section>
 
-<!-- Lightbox Modal -->
-<div id="lightbox" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center hidden z-50 p-4">
-  <div class="relative max-w-4xl w-full">
-    <button id="close-lightbox" class="absolute -top-12 right-0 text-white hover:text-gray-300">
-      <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-      </svg>
-    </button>
-    <img id="lightbox-img" src="" class="w-full rounded-lg shadow-xl">
-  </div>
-</div>
 
 <%- include('partials/main/footer') %>

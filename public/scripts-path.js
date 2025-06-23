@@ -1,110 +1,68 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // Wait a tiny bit longer to ensure all elements are loaded
-    setTimeout(() => {
-        const hero = document.getElementById("hero");
-        const navbar = document.getElementById("navbar");
-        const hamburger_lines = document.querySelectorAll("#hamburger-btn .hamburger-line");
-        const lillogo = document.getElementById("lillogo");
-        const logo = document.getElementById("logo");
-
-        // Check if elements exist before manipulating them
-        if (navbar) {
-            navbar.classList.remove("bg-transparent");
-            navbar.classList.add("bg-[#f5f5f0]", "shadow-md");
-        }
-
-        if (logo) {
-            logo.classList.remove("text-white");
-            logo.classList.add("text-bla"); // Ensure 'text-bla' is defined in your Tailwind config
-        }
-
-        if (lillogo) {
-            lillogo.classList.remove("text-gray-300");
-            lillogo.classList.add("text-gray-900");
-        }
-
-        if (hamburger_lines.length > 0) {
-            hamburger_lines.forEach(line => {
-                line.style.backgroundColor = "black";
-            });
-        }
-    }, 50); // 50ms delay
-});
-
-  // AOS başlat
-  AOS.init({
-    duration: 800,
-    once: false
-  });
-
-  // scrollToNext fonksiyonu
-  function scrollToNext() {
-    const nextSection = document.getElementById("about");
-    if (nextSection) {
-      nextSection.scrollIntoView({ behavior: "smooth" });
-    }
+document.addEventListener("DOMContentLoaded", function () {
+  // ✅ AOS başlat
+  if (typeof AOS !== "undefined") {
+    AOS.init({
+      duration: 800,
+      once: false
+    });
   }
-
-  // Lightbox
-  const galleryImages = document.querySelectorAll(".gallery-img");
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-
-  if (galleryImages.length > 0 && lightbox && lightboxImg) {
-    galleryImages.forEach((img) => {
-      img.addEventListener("click", () => {
-        lightboxImg.src = img.src;
-        lightbox.classList.remove("hidden");
+  
+  // ✅ Hamburger Menü
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const hamburgerLines = document.querySelectorAll('.hamburger-line');
+  const body = document.body;
+  const mobileNavLinks = document.querySelectorAll('.mobile-nav-link');
+  
+  function toggleMenu() {
+    mobileMenu.classList.toggle('active');
+    body.classList.toggle('menu-open');
+    
+    hamburgerLines[0].classList.toggle('rotate-45');
+    hamburgerLines[0].classList.toggle('translate-y-2.5');
+    hamburgerLines[1].classList.toggle('opacity-0');
+    hamburgerLines[2].classList.toggle('-rotate-45');
+    hamburgerLines[2].classList.toggle('-translate-y-2.5');
+  }
+  
+  if (hamburgerBtn && mobileMenu) {
+    hamburgerBtn.addEventListener('click', toggleMenu);
+    
+    mobileNavLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        if (link.getAttribute('href').startsWith('#')) {
+          e.preventDefault();
+          const target = document.querySelector(link.getAttribute('href'));
+          if (target) {
+            toggleMenu();
+            setTimeout(() => {
+              target.scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+          }
+        } else {
+          toggleMenu();
+        }
       });
     });
-
-    lightbox.addEventListener("click", () => {
-      lightbox.classList.add("hidden");
-    });
-
-  }
-
-  // Counter Animation
-  function animateCounter(id, target, duration = 2000) {
-    const element = document.getElementById(id);
-    const start = 0;
-    const increment = target / (duration / 16);
-    let current = start;
     
-    const timer = setInterval(() => {
-      current += increment;
-      if (current >= target) {
-        clearInterval(timer);
-        current = target;
+    mobileMenu.addEventListener('click', (e) => {
+      if (e.target === mobileMenu || e.target.classList.contains('bg-black')) {
+        toggleMenu();
       }
-      element.textContent = Math.floor(current);
-    }, 16);
-  }
-
-  observer.observe(document.getElementById('hero'));
-
-  // Lightbox functionality
-  document.querySelectorAll('#projects img').forEach(img => {
-    img.addEventListener('click', () => {
-      document.getElementById('lightbox-img').src = img.src;
-      document.getElementById('lightbox').classList.remove('hidden');
     });
-  });
-
-  document.getElementById('close-lightbox').addEventListener('click', () => {
-    document.getElementById('lightbox').classList.add('hidden');
-  });
-
-  // Initialize Glide slider
-  new Glide('.glide', {
-    type: 'carousel',
-    perView: 1,
-    gap: 30,
-    breakpoints: {
-      768: {
-        perView: 1
-      }
-    }
-  }).mount();
+  }
+  
+  // ✅ Scroll navbar effects
+  const navbar = document.getElementById("navbar");
+  const navLinks = document.getElementById("nav-links");
+  const lillogo = document.getElementById("lillogo");
+  const logo = document.getElementById("logo");
+    
+  navbar?.classList.add("bg-[#f5f5f0]", "shadow-md");
+  logo?.classList.replace("text-white", "text-black");
+  lillogo?.classList.replace("text-gray-300", "text-gray-900");
+  hamburgerLines?.forEach(line => line.style.backgroundColor = "black");
+  navLinks?.classList.replace("text-white", "text-black");  
+});
 
   

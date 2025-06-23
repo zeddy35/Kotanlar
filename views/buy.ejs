@@ -1,104 +1,106 @@
 <%- include("partials/path/header-path") %>
 
-<main class="pt-24 pb-12">
+<main class="pt-40 pb-12"> <!-- Increased top padding for navbar -->
 
-    <div class="container">
-        <header class="content-header">
-            <!-- SVG Background Elements -->
-            <svg class="svg-bg svg-bg-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="currentColor" d="M45.2,-58.8C58.1,-46.6,68,-30.3,71.1,-12.5C74.2,5.3,70.5,24.6,59.1,40.3C47.7,56,28.6,68.1,7.1,65.3C-14.4,62.5,-38.2,44.8,-52.8,24.4C-67.4,4,-72.7,-19.1,-63.8,-36.7C-54.9,-54.3,-31.7,-66.4,-9.3,-61.6C13,-56.8,26.1,-35.1,45.2,-58.8Z" transform="translate(100 100)" />
-            </svg>
-            <svg class="svg-bg svg-bg-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-                <path fill="currentColor" d="M38.8,-50.8C50.9,-42.2,61.9,-31.3,65.7,-18.1C69.5,-4.8,66.2,10.8,58.5,24.9C50.8,39,38.8,51.6,23.8,59.5C8.8,67.4,-9.2,70.6,-24.9,64.9C-40.6,59.2,-54,44.6,-60.9,27.9C-67.8,11.2,-68.2,-7.6,-61.7,-23.8C-55.2,-40,-41.8,-53.6,-27.1,-61.3C-12.3,-69,3.7,-70.8,18.2,-66.1C32.7,-61.4,45.6,-50.2,38.8,-50.8Z" transform="translate(100 100)" />
-            </svg>
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl relative">
+        <!-- Header Section with AOS -->
+        <header class="relative overflow-hidden py-16 rounded-xl bg-gradient-to-r from-blue-50 to-indigo-50 mb-12" data-aos="fade-up">
             
-            <div class="header-content">
-                <h1>ALIM SÜRECİ 🏡</h1>
-                <p class="header-description">Taşınmaz satın alma işlemlerinizde size rehberlik edecek profesyonel süreçler</p>
+            <div class="relative z-10 text-center px-4" data-aos="fade-up" data-aos-delay="100">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">SATIN ALMA İŞLEMLERİ <span class="text-blue-600">🏡</span></h1>
+                <p class="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto">Gayrimenkul satın alma işlemlerinizde size rehberlik edecek profesyonel süreçler</p>
             </div>
         </header>
         
-        <div class="process-container">
+        <!-- Process Steps Container -->
+        <div class="process-container space-y-8">
             <!-- Step 1 -->
-            <div class="process-step">
-                <div class="step-header">
-                    <div class="step-icon">🔍</div>
-                    <div>Gayrimenkul Seçimi ve Değerlendirme</div>
+            <div class="process-step bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up">
+                <div class="step-header flex items-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+                    <div class="step-icon text-3xl mr-4">🔍</div>
+                    <h2 class="text-xl font-semibold text-gray-800">Gayrimenkul Seçimi ve Değerlendirme</h2>
                 </div>
-                <div class="step-content">
-                    <p>Müşterilerimize, alım sürecini anlamalarına yardımcı olabilmek için aşağıda bir taşınmazın resmi olarak satılmadan önce geçmesi gereken esas kademeleri özetlemekteyiz.</p>
-                    <p>Sizin taleplerinizi dinledikten sonra projelerimizden, size en uygun gayrimenkullerin listesini çıkartıp beğendiğiniz gayrimenkulleri birlikte gezerek değerlendiririz.</p>
+                <div class="step-content p-6">
+                    <p class="mb-4 text-gray-700">Müşterilerimize, alım sürecini anlamalarına yardımcı olabilmek için aşağıda bir taşınmazın resmi olarak satılmadan önce geçmesi gereken esas kademeleri özetlemekteyiz.</p>
+                    <p class="text-gray-700">Sizin taleplerinizi dinledikten sonra projelerimizden, size en uygun gayrimenkullerin listesini çıkartıp beğendiğiniz gayrimenkulleri birlikte gezerek değerlendiririz.</p>
                 </div>
             </div>
             
             <!-- Step 2 -->
-            <div class="process-step">
-                <div class="step-header">
-                    <div class="step-icon">📝</div>
-                    <div>SATIŞ SÖZLEŞMESİ, REZERVASYON & DEPOZİTO</div>
+            <div class="process-step bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="100">
+                <div class="step-header flex items-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+                    <div class="step-icon text-3xl mr-4">📝</div>
+                    <h2 class="text-xl font-semibold text-gray-800">SATIŞ SÖZLEŞMESİ, REZERVASYON & DEPOZİTO</h2>
                 </div>
-                <div class="step-content">
-                    <p>Depozito ödenmeden önce, KOTANLAR İNŞAAT tarafından bir satış sözleşmesi düzenlenmektedir. Bu sözleşmede gayrimenkulün anlaşılan satış bedeli, ödeme tarihleri, teslim tarihi ve her iki tarafın haklarını ve anlaşmaya varılan özel şartlar bulunur.</p>
+                <div class="step-content p-6">
+                    <p class="text-gray-700">Depozito ödenmeden önce, KOTANLAR İNŞAAT tarafından bir satış sözleşmesi düzenlenmektedir. Bu sözleşmede gayrimenkulün anlaşılan satış bedeli, ödeme tarihleri, teslim tarihi ve her iki tarafın haklarını ve anlaşmaya varılan özel şartlar bulunur.</p>
                 </div>
             </div>
             
             <!-- Step 3 -->
-            <div class="process-step">
-                <div class="step-header">
-                    <div class="step-icon">📑</div>
-                    <div>Tapu Devri İçin Gerekli Belgeler</div>
+            <div class="process-step bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="150">
+                <div class="step-header flex items-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+                    <div class="step-icon text-3xl mr-4">📑</div>
+                    <h2 class="text-xl font-semibold text-gray-800">Tapu Devri İçin Gerekli Belgeler</h2>
                 </div>
-                <div class="step-content">
-                    <div class="documents-section">
-                        <h4><span>📌</span> Satıcı:</h4>
-                        <ul class="documents-list">
-                            <li>1 fotoğraf</li>
-                            <li>Nüfus cüzdanı aslı ve fotokopisi</li>
-                            <li>Tapu fotokopisi</li>
-                            <li>Belediye beyan değeri</li>
-                            <li>Deprem sigortası fotokopisi (DASK)</li>
+                <div class="step-content p-6 grid md:grid-cols-2 gap-8">
+                    <div class="documents-section bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center"><span class="mr-2">📌</span> Satıcı:</h4>
+                        <ul class="documents-list space-y-2 pl-6">
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> 1 fotoğraf
+                            </li>
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> Nüfus cüzdanı aslı ve fotokopisi
+                            </li>
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> Tapu fotokopisi
+                            </li>
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> Belediye beyan değeri
+                            </li>
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> Deprem sigortası fotokopisi (DASK)
+                            </li>
                         </ul>
                     </div>
                     
-                    <div class="documents-section">
-                        <h4><span>📌</span> Alıcı:</h4>
-                        <ul class="documents-list">
-                            <li>2 fotoğraf</li>
-                            <li>Nüfus cüzdanı aslı ve fotokopisi</li>
+                    <div class="documents-section bg-gray-50 p-4 rounded-lg">
+                        <h4 class="font-medium text-gray-800 mb-3 flex items-center"><span class="mr-2">📌</span> Alıcı:</h4>
+                        <ul class="documents-list space-y-2 pl-6">
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> 2 fotoğraf
+                            </li>
+                            <li class="text-gray-700 flex items-start">
+                                <span class="mr-2">•</span> Nüfus cüzdanı aslı ve fotokopisi
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
             
             <!-- Step 4 -->
-            <div class="process-step">
-                <div class="step-header">
-                    <div class="step-icon">🏛️</div>
-                    <div>TAPU DEVRİ</div>
+            <div class="process-step bg-white rounded-xl shadow-md overflow-hidden" data-aos="fade-up" data-aos-delay="200">
+                <div class="step-header flex items-center p-6 bg-gradient-to-r from-blue-50 to-indigo-50">
+                    <div class="step-icon text-3xl mr-4">🏛️</div>
+                    <h2 class="text-xl font-semibold text-gray-800">TAPU DEVRİ</h2>
                 </div>
-                <div class="step-content">
-                    <h3>🇹🇷 Türkiye Cumhuriyeti vatandaşları için:</h3>
-                    <p>Bütün işlemler yukarıda belirtildiği gibi düzenlendiyse bilgileriniz sabah 09.00 ile 12.00 saatleri arasında tapu müdürlüğüne teslim edilir ve satıcıya sms yoluyla bilgi gönderilir, öğleden sonra devlet bankasına gerekli harçlar yatırıldıktan sonra tapu devri işlemi gerçekleşir, tapu müdürlüğünde tapu adınıza göre çıkarılacaktır.</p>
+                <div class="step-content p-6 space-y-6">
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">🇹🇷 Türkiye Cumhuriyeti vatandaşları için:</h3>
+                        <p class="text-gray-700">Bütün işlemler yukarıda belirtildiği gibi düzenlendiyse bilgileriniz sabah 09.00 ile 12.00 saatleri arasında tapu müdürlüğüne teslim edilir ve satıcıya sms yoluyla bilgi gönderilir, öğleden sonra devlet bankasına gerekli harçlar yatırıldıktan sonra tapu devri işlemi gerçekleşir, tapu müdürlüğünde tapu adınıza göre çıkarılacaktır.</p>
+                    </div>
                     
-                    <h3>🌍 Türkiye Cumhuriyeti vatandaşı olmayanlar için:</h3>
-                    <p>Bütün işlemler yukarıda belirtildiği gibi düzenlendiyse hem alıcının hem de taşınmazın bilgileri / detayları personelimiz tarafından Tapu kadastro Müdürlüğüne iletilecektir. Oradan bu bilgiler Ege Ordu Komutanlığına iletilerek başvuru talebi kontrol edilmektedir. Bunun sebebi, Türkiye'de belli başlı bölgelerin yabancılara satışının yasak olmasıdır.</p>
-                    <p>2014 de çıkan yeni kanuna göre aynı ada parsel üzerinde en az 1 yabancı taşınmaz satın almış ise diğer yabancı vatandaşlar için tekrar EGE ORDU KOMUTANLIĞI'na yapılan başvuruya gerek kalmadan aynı gün içerisinde tapu teslimi yapılacaktır.</p>
-                    <p>⏳ Ordu izninin onaylanması yaklaşık 3 ay sürmektedir ve onaylandıktan sonra adınıza çıkarılan tapunuzu tapu müdürlüğünden veya avukatınızdan teslim alabilirsiniz.</p>
+                    <div>
+                        <h3 class="font-semibold text-gray-800 mb-2">🌍 Türkiye Cumhuriyeti vatandaşı olmayanlar için:</h3>
+                        <p class="text-gray-700 mb-4">Bütün işlemler yukarıda belirtildiği gibi düzenlendiyse hem alıcının hem de taşınmazın bilgileri / detayları personelimiz tarafından Tapu kadastro Müdürlüğüne iletilecektir. Oradan bu bilgiler Ege Ordu Komutanlığına iletilerek başvuru talebi kontrol edilmektedir. Bunun sebebi, Türkiye'de belli başlı bölgelerin yabancılara satışının yasak olmasıdır.</p>
+                        <p class="text-gray-700 mb-4">2014 de çıkan yeni kanuna göre aynı ada parsel üzerinde en az 1 yabancı taşınmaz satın almış ise diğer yabancı vatandaşlar için tekrar EGE ORDU KOMUTANLIĞI'na yapılan başvuruya gerek kalmadan aynı gün içerisinde tapu teslimi yapılacaktır.</p>
+                        <p class="text-gray-700 font-medium">⏳ Ordu izninin onaylanması yaklaşık 3 ay sürmektedir ve onaylandıktan sonra adınıza çıkarılan tapunuzu tapu müdürlüğünden veya avukatınızdan teslim alabilirsiniz.</p>
+                    </div>
                 </div>
             </div>
         </div>  
     </div>
 </main>
-    
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-    AOS.init({
-      duration: 800,
-      easing: 'ease-in-out',
-      once: true
-    });
-  });
-</script>
 
 <%- include("partials/path/footer-path") %>

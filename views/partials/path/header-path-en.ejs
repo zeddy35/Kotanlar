@@ -6,9 +6,10 @@
   <title>Kotanlar</title>
   <link href="https://unpkg.com/aos@next/dist/aos.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet"> 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <link rel="stylesheet" href="/css/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="/css/input.css">
   <style>
     /* Mobile menu styles */
     #mobile-menu {
@@ -33,6 +34,10 @@
     
     .hamburger-line {
       transition: all 0.3s ease;
+    }
+
+    .container {
+      padding-top: 100px;
     }
     
     /* Prevent scrolling when menu is open */
@@ -62,18 +67,17 @@
 </head>
 <body class="bg-[#f5f5f0] text-[#1c1c1c]">
 
-<nav id="navbar" class="flex justify-between items-center p-6 fixed w-full z-50  transition-all duration-300 h-24 ">
+<nav id="navbar" class="flex justify-between items-center p-6 fixed w-full z-50 transition-all duration-300 h-24 bg-transparent">
   <div class="flex items-center space-x-4">
     <a href="/en" class="inline-block transition-transform duration-300 hover:scale-110 hover:drop-shadow-lg">
       <img src="/images/logo.png" alt="Logo" style="background-color: transparent;" class="w-12 h-12">
     </a>
     <div>
-      <div id="logo" class="text-2xl font-bold uppercase tracking-wide text-white">Kotanlar</div>
-      <div id="lillogo" class="text-lg italic text-gray-300">
-        Bring Quality Home
+      <div id="logo" class="text-2xl font-bold uppercase tracking-wide text-white transition-colors duration-300">Kotanlar</div>
+        <div id="lillogo" class="text-lg italic text-gray-300 transition-colors duration-300">Bring Quality Home</div>
+        </div>
       </div>
     </div>
-  </div>
 
   <!-- Desktop Navigation -->
   <div id="nav-links" class="space-x-6 text-xl text-black font-semibold hidden md:flex items-center relative z-50">
