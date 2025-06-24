@@ -7,6 +7,7 @@ import path from 'path';
 import slugify from 'slugify';
 import dotenv from 'dotenv';
 import rateLimit from 'express-rate-limit';
+import bcrypt from 'bcrypt'; // veya require ileyse: const bcrypt = require('bcrypt');
 
 dotenv.config();
 
@@ -24,7 +25,7 @@ const limiter = rateLimit({
 router.use('/submit', limiter);
 
 function isAuthenticated(req, res, next) {
-  if (req.session && req.session.admin) return next();
+  if (req.session && req.session.isAuthenticated) return next();
   return res.redirect('/admin/login');
 }
 
@@ -34,16 +35,22 @@ router.get('/login', (req, res) => {
   res.render('admin/login', { error });
 });
 
-router.post('/login', (req, res) => {
+
+router.post('/login', async (req, res) => {
   const { username, password } = req.body;
-  if (username === ADMIN_USER && password === ADMIN_PASS) {
-    req.session.admin = true;
-    return res.redirect('/admin/projects');
+  const validUsername = process.env.ADMIN_USER;
+  const hash = process.env.ADMIN_PASS_HASH;
+
+  const isPasswordValid = await bcrypt.compare(password, hash);
+
+  if (username === validUsername && isPasswordValid) {
+    req.session.isAuthenticated = true;
+    res.redirect('/admin/projects');
   } else {
-    req.session.loginError = 'Hatalı kullanıcı adı veya şifre';
-    return res.redirect('/admin/login');
+    res.redirect('/admin/login?error=1');
   }
 });
+
 
 // LogOut
 router.get('/logout', (req, res) => {
