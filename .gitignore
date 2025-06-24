@@ -15,3 +15,13 @@ public/images/
 # VSCode & Mac
 .vscode/
 .DS_Store
+
+node_modules/
+
+public/images/
+
+public/uploads/
+
+.DS_Store
+
+.env

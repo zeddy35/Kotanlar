@@ -12,8 +12,8 @@ dotenv.config();
 
 const router = express.Router();
 
-const ADMIN_USER = process.env.ADMIN_USER || 'YDKotan';
-const ADMIN_PASS = process.env.ADMIN_PASS || '4af1a-rqwe3-adfgR4';
+const ADMIN_USER = process.env.ADMIN_USER 
+const ADMIN_PASS = process.env.ADMIN_PASS 
 
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
