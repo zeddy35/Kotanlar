@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Projeler</title>
   <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="/css/output.css" rel="stylesheet">
   <style>
     /* Custom styles */
     .projects-table {
@@ -54,8 +54,8 @@
   <% projects.forEach(project => { %>
     <tr class="transition-colors duration-150">
       <td class="px-6 py-4 whitespace-nowrap flex items-center space-x-4">
-        <% if (project.image) { %>
-          <img src="<%= project.image %>" alt="Kapak" class="w-12 h-12 object-cover rounded-md border border-gray-200">
+        <% if (project.coverImage) { %>
+          <img src="<%= project.coverImage %>" alt="Kapak" class="w-12 h-12 object-cover rounded-md border border-gray-200">
         <% } else { %>
           <div class="w-12 h-12 bg-gray-100 text-gray-400 flex items-center justify-center rounded-md border border-gray-200">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Proje Düzenle</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="/css/output.css" rel="stylesheet">
   <style>
     .form-header {
       background: linear-gradient(135deg, #059669 0%, #047857 100%);
@@ -161,7 +161,7 @@
 
         <!-- Gallery Images Upload -->
           <div class="space-y-4">
-    <div>
+        <div>
       <label class="block text-sm font-medium text-gray-700 mb-1">Mevcut Galeri Görselleri</label>
       <% if (project.galleryImages && project.galleryImages.length > 0) { %>
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-2">
@@ -188,8 +188,8 @@
               >
               <button 
                 type="button" 
-                class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-opacity opacity-0 group-hover:opacity-100"
-                onclick="removeGalleryImage(this, '<%= imagePath %>')"
+                class="gallery-delete-btn absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 transition-opacity opacity-0 group-hover:opacity-100"
+                data-image="<%= imagePath %>"
                 title="Resmi sil"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor">
@@ -245,46 +245,13 @@
             </svg>
             Projeyi Güncelle
           </button>
-        </div>
+        </div>      
       </form>
     </div>
   </div>
   <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
   </div>
-  <script>
-    function removeGalleryImage(button, imageUrl) {
-      const removedInput = document.getElementById('removedGalleryImages');
-      const currentRemoved = removedInput.value ? removedInput.value.split(',') : [];
 
-      if (!currentRemoved.includes(imageUrl)) {
-        currentRemoved.push(imageUrl);
-        removedInput.value = currentRemoved.join(',');
-
-        const imageElement = button.closest('.relative');
-        if (imageElement) {
-          imageElement.classList.add('opacity-0', 'transition-opacity', 'duration-300');
-          setTimeout(() => {
-            imageElement.remove();
-            if (document.querySelectorAll('.grid .relative').length === 0) {
-              const container = button.closest('.space-y-4');
-              if (container) {
-                const message = document.createElement('p');
-                message.className = 'text-sm text-gray-500';
-                message.textContent = 'Mevcut galeri görseli bulunmamaktadır';
-                container.insertBefore(message, container.querySelector('div'));
-              }
-            }
-          }, 300);
-        }
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      console.log('Project data:', {
-        title: '<%= project.title %>',
-        image: '<%= project.coverImage %>'
-      });
-    });
-  </script>
+<script src="/scripts-path.js" rel="scripts"></script>
 </body>
 </html>

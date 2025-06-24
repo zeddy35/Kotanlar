@@ -112,6 +112,7 @@ router.post('/add', isAuthenticated, upload.fields([
   }
 });
 
+// Projeyi getirme (edit sayfası)
 router.get('/edit/:id', isAuthenticated, async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -123,12 +124,24 @@ router.get('/edit/:id', isAuthenticated, async (req, res) => {
   }
 });
 
+// Projeyi güncelleme (POST)
 router.post('/edit/:id', isAuthenticated, upload.fields([
   { name: 'coverImage', maxCount: 1 },
   { name: 'galleryImages', maxCount: 10 }
 ]), async (req, res) => {
   try {
-    const { title, title_eng, location, client, category, description, description_eng, removedGalleryImages } = req.body;
+      console.log("REQ.BODY:", req.body);
+      const {
+        title,
+        title_eng,
+        location,
+        client,
+        category,
+        description,
+        description_eng,
+        removedGalleryImages
+    } = req.body;
+
     const newSlug = slugify(title || 'proje', { lower: true, strict: true });
     const project = await Project.findById(req.params.id);
     if (!project) return res.status(404).send('Proje bulunamadı');
@@ -136,35 +149,64 @@ router.post('/edit/:id', isAuthenticated, upload.fields([
     const oldSlug = project.slug;
     let updatedGalleryImages = [...(project.galleryImages || [])];
 
+    // Eğer slug değiştiyse klasörü taşı ve yolları güncelle
     if (oldSlug !== newSlug) {
       const oldPath = path.join('public', 'images', oldSlug);
       const newPath = path.join('public', 'images', newSlug);
-      if (fs.existsSync(oldPath)) fs.renameSync(oldPath, newPath);
-      updatedGalleryImages = updatedGalleryImages.map(img => img.replace(`/images/${oldSlug}/`, `/images/${newSlug}/`));
-      setTimeout(() => {
-        if (fs.existsSync(oldPath) && fs.readdirSync(oldPath).length === 0) {
-          fs.rmdirSync(oldPath);
+
+      if (fs.existsSync(oldPath)) {
+        fs.renameSync(oldPath, newPath);
+      }
+
+      // cover ve gallery yollarını slug’a göre güncelle
+      if (project.coverImage) {
+        project.coverImage = `/images/${newSlug}/${path.basename(project.coverImage)}`;
+      }
+      updatedGalleryImages = updatedGalleryImages.map(img => `/images/${newSlug}/${path.basename(img)}`);
+
+      // eski klasör boşsa sil
+      if (oldSlug !== newSlug) {
+        const oldPath = path.join('public', 'images', oldSlug);
+        if (fs.existsSync(oldPath)) {
+          const files = fs.readdirSync(oldPath);
+          if (files.length === 0) fs.rmdirSync(oldPath);
         }
-      }, 500);
+      }
     }
 
+    // Cover Image varsa güncelle
     let coverImage = project.coverImage;
     if (req.files['coverImage']?.[0]) {
       coverImage = `/images/${newSlug}/${req.files['coverImage'][0].filename}`;
     }
 
+    // Yeni gallery ekle
     const newGallery = req.files['galleryImages']?.map(file => `/images/${newSlug}/${file.filename}`) || [];
     updatedGalleryImages.push(...newGallery);
 
-    if (removedGalleryImages) {
-      const toRemove = removedGalleryImages.split(',');
-      updatedGalleryImages = updatedGalleryImages.filter(img => !toRemove.includes(img));
-      toRemove.forEach(imgPath => {
-        const fullPath = path.join('public', imgPath);
-        if (fs.existsSync(fullPath)) fs.unlinkSync(fullPath);
+  // Silinecek galerileri işleme
+  if (removedGalleryImages) {
+    const toRemove = removedGalleryImages
+      .split(',')
+      .map(item => item.trim())
+      .filter(Boolean)
+      .map(imgPath => {
+        // Eğer eski slug ile geldiyse, bunu da normalize et
+        const filename = path.basename(imgPath);
+        return `/images/${newSlug}/${filename}`;
       });
-    }
 
+    updatedGalleryImages = updatedGalleryImages.filter(img => !toRemove.includes(img));
+
+    toRemove.forEach(imgPath => {
+      const fullPath = path.join('public', imgPath.startsWith('/') ? imgPath : `/${imgPath}`);
+      if (fs.existsSync(fullPath)) {
+        fs.unlinkSync(fullPath);
+      }
+    });
+  }
+
+    // Güncelle ve kaydet
     await Project.findByIdAndUpdate(req.params.id, {
       title,
       title_eng,

@@ -92,18 +92,18 @@
 
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <% projects.forEach(project => { %>
-        <div class="group relative overflow-hidden rounded-xl shadow-lg" data-aos="fade-up">
+        <a href="/projects/<%= project.slug %>" class="group relative overflow-hidden rounded-xl shadow-lg block" data-aos="fade-up">
           <img src="<%= project.coverImage %>" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
             <h3 class="text-white text-xl font-semibold mb-2"><%= project.title_eng %></h3>
-            <a href="/projects/<%= project.id %>" class="text-white font-medium flex items-center group-hover:text-yellow-300 transition">
+            <div class="text-white font-medium flex items-center group-hover:text-yellow-300 transition">
               Detaylar
               <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
               </svg>
-            </a>
+            </div>
           </div>
-        </div>
+        </a>
       <% }) %>
     </div>
   </div>
