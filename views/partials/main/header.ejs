@@ -11,29 +11,75 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="/css/input.css">
   <style>
+        /* Prevent horizontal scrolling */
+    html, body {
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* Ensure all elements stay within bounds */
+    * {
+      box-sizing: border-box;
+    }
+
+    /* Specific element constraints */
+    .container {
+      width: 100%;
+      padding-right: 15px;
+      padding-left: 15px;
+      margin-right: auto;
+      margin-left: auto;
+    }
+
+    /* Responsive images */
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    #hero {
+      width: 100vw; /* This can sometimes cause issues */
+      /* Replace with: */
+      width: 100%;
+      overflow: hidden;
+    }
+    
+    nav#navbar {
+      width: 100%;
+      /* Add these: */
+      left: 0;
+      right: 0;
+      padding-left: env(safe-area-inset-left);
+      padding-right: env(safe-area-inset-right);
+    }
+
     /* Mobile menu styles */
     #mobile-menu {
       position: fixed;
       top: 0;
-      left: 0;
-      width: 100%;
+      left: auto;
+      right: -100vw;
+      width: 100vw;
       height: 100vh;
       background-color: rgba(0, 0, 0, 0.9);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      z-index: 40;
-      transform: translateX(100%);
-      transition: transform 0.3s ease-in-out;
+      z-index: 999;
+      transition: right 0.3s ease-in-out;
     }
-    
+
     #mobile-menu.active {
-      transform: translateX(0);
+      right: 0;
     }
     
     .hamburger-line {
       transition: all 0.3s ease;
+    }
+
+    #navbar {
+      z-index: 1000;
     }
     
     /* Prevent scrolling when menu is open */
@@ -60,11 +106,13 @@
     }
     </style>
 </head>
-<body class="bg-[#f5f5f0] text-[#1c1c1c]">
+<body class="bg-[#f5f5f0] text-[#1c1c1c] overflow-x-hidden">
+<nav id="navbar" class="overflow-hidden flex justify-between items-center p-6 fixed w-full z-50 transition-all duration-300 h-24">
+<div class="container mx-auto flex justify-between items-center">
 
-<nav id="navbar" class="flex justify-between items-center p-6 fixed w-full z-50  transition-all duration-300 h-24 ">
+  
   <div class="flex items-center space-x-4">
-    <a href="/" class="inline-block transition-transform duration-300 hover:scale-110 hover:drop-shadow-lg">
+    <a href="/" class="inline-block transition-transform duration-300 hover:scale-[1.05] hover:drop-shadow-lg">
       <img src="/images/logo.png" alt="Logo" style="background-color: transparent;" class="w-12 h-12">
     </a>
     <div>
@@ -74,7 +122,7 @@
       </div>
     </div>
   </div>
-
+  
   <!-- Desktop Navigation -->
   <div id="nav-links" class="space-x-6 text-xl text-white font-semibold hidden md:flex items-center relative z-50">
     <a href="/" class="relative group scroll-smooth">
@@ -101,21 +149,22 @@
       <h1 class="transition duration-300 group-hover:text-blue-400">Bize Ulaşın</h1>
       <span class="absolute left-0 bottom-0 w-0 h-0.5 bg-blue-400 transition-all duration-300 group-hover:w-full"></span>
     </a>
-
+    
     <a href="/en" id="lang-btn" class="px-6 py-3 bg-white text-black font-semibold rounded-full 
-      hover:bg-blue-400 hover:text-white transition duration-300">
-      EN / TR
-    </a>
-  </div>
+    hover:bg-blue-400 hover:text-white transition duration-300">
+    EN / TR
+  </a>
+</div>
 
-  <!-- Mobile Hamburger Button -->
-  <button id="hamburger-btn" class="md:hidden focus:outline-none z-50">
-    <div class="w-8 space-y-2">
-      <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
-      <span class="block h-0.5 w-full bg-white hamburger-line transition-opacity"></span>
-      <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
-    </div>
-  </button>
+<!-- Mobile Hamburger Button -->
+<button id="hamburger-btn" class="md:hidden focus:outline-none z-50">
+  <div class="w-8 space-y-2">
+    <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
+    <span class="block h-0.5 w-full bg-white hamburger-line transition-opacity"></span>
+    <span class="block h-0.5 w-full bg-white hamburger-line transition-transform"></span>
+  </div>
+</button>
+</div>
 </nav>
 
 <!-- Mobile Menu Overlay -->

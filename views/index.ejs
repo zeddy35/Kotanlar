@@ -2,7 +2,7 @@
 
 
 <!-- Hero -->
-<section id="hero" class="h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat relative overflow-hidden" style="background-image: url(/images/hero_section.jpg);">
+<section id="hero" class="w-full max-w-full h-screen flex items-center justify-center bg-cover bg-center bg-no-repeat relative py-20 px-6 bg-white" style="background-image: url(/images/hero_section.jpg);">
   <div class="absolute inset-0 bg-gradient-to-b from-black/20 via-black/50 to-black/30"></div>
   <div class="relative z-10 text-center px-4">
     <div class="p-8 md:p-12 rounded-xl inline-block shadow-2xl">
@@ -32,7 +32,7 @@
 </section>
 
 <!-- About -->
-<section id="about" class="scroll-mt-20 py-20 px-6 max-w-6xl mx-auto">
+<section id="about" class="scroll-mt-20 py-20 px-6 max-w-6xl bg-white mx-auto">
   <div class="grid md:grid-cols-2 gap-12 items-center">
     <div>
       <h2 class="text-4xl font-semibold mb-6" data-aos="fade-up">Hakkımızda</h2>
@@ -83,7 +83,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
       <% projects.forEach(project => { %>
         <a href="/projects/<%= project.slug %>" class="group relative overflow-hidden rounded-xl shadow-lg block" data-aos="fade-up">
-          <img src="<%= project.coverImage %>" class="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" />
+          <img src="<%= project.coverImage %>" class="w-full max-w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110" />
           <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent flex flex-col justify-end p-6">
             <h3 class="text-white text-xl font-semibold mb-2"><%= project.title %></h3>
             <div class="text-white font-medium flex items-center group-hover:text-yellow-300 transition">
@@ -100,7 +100,7 @@
 </section>
 
 <!-- Process -->
-<section class="py-20 bg-white">
+<section class="py-20 px-6 bg-white">
   <div class="max-w-6xl mx-auto px-6">
     <h2 class="text-4xl font-semibold mb-12 text-center" data-aos="fade-up">Çalışma Sürecimiz</h2>
     
@@ -145,7 +145,7 @@
 </section>
 
 <!-- CTA Section -->
-<section class="py-16 bg-[#1c1c1c] text-white">
+<section class="py-16 bg-[#1c1c1c] text-white overflow-x-hidden">
   <div class="max-w-4xl mx-auto px-6 text-center">
     <h2 class="text-3xl md:text-4xl font-semibold mb-6" data-aos="fade-up">Projeniz İçin Teklif Alın</h2>
     <p class="text-lg mb-8 max-w-2xl mx-auto" data-aos="fade-up">Profesyonel ekibimiz projeniz hakkında sizi bilgilendirmek için hazır</p>
@@ -157,7 +157,7 @@
 </section>
 
 <!-- Contact -->
-<section id="contact" class="py-20 px-6 bg-white">
+<section id="contact" class="py-20 px-6 bg-white py-20 overflow-x-hidden">
   <div class="max-w-6xl mx-auto">
     <h2 class="text-4xl font-semibold mb-12 text-center" data-aos="fade-up">İletişim</h2>
 
